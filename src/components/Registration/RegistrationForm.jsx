@@ -9,8 +9,6 @@ export default function RegistrationForm() {
     email: '',
     password: '',
     confirmPassword: '',
-    profilePhoto: '',
-    termsAndConditions: ''
   });
 
   const [blur, setBlur] = useState(false)
@@ -20,11 +18,18 @@ export default function RegistrationForm() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log(registeredValue.firstName) 
-    console.log(registeredValue.lastName)
-    console.log(registeredValue.phoneNumber)
-    console.log(registeredValue.email)
-    console.log(registeredValue.password)
+    fetch('http://localhost:3001/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(registeredValue)
+    })
+    .then(response => response.text())
+    // .then(data => console.log(data))
+    .catch((err) => {
+      console.error('Error', err)
+    })
   }
 
   function handleInputChange(name, value) {
@@ -116,26 +121,6 @@ export default function RegistrationForm() {
             onChange={(event) => handleInputChange('confirmPassword',event.target.value)}
           />
       </label> <br />
-
-      <label htmlFor="profilePhoto"> Upload Profile photo
-          <input 
-            id="profilePhoto" 
-            type="file" 
-            name="profilePhoto" 
-            value={registeredValue.profilePhoto}
-            onChange={(event) => handleInputChange('profilePhoto', event.target.value)}
-          />
-      </label> <br />
-
-      <input 
-        id="termsAndConditions" 
-        type="checkbox" 
-        name="termsAndConditions" 
-        value={registeredValue.termsAndConditions}
-        onChange={(event) => handleInputChange('termsAndConditions', event.target.value)}
-      />
-
-      <label htmlFor="termsAndConditions"> accept to terms and conditions </label> <br />
 
       <input type="reset" />
       <input type="submit" />

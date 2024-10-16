@@ -8,8 +8,19 @@ export default function LoginForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(`email: ${enteredCreds.email}`)
-    console.log(`password: ${enteredCreds.password}`)
+
+    fetch('http://localhost:3001/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(enteredCreds)
+    })
+    .then(response => response.text())
+    .then(data => console.log(data))
+    .catch(err => {
+      console.error('Error : ', err)
+    })
   }
 
   function handleInputChange(stateObjProp, value){
